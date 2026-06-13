@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zapasy – Sztuka Walki i Siły</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:    #8B1A1A;
+    --red-lt: #A82424;
+    --gold:   #C9A84C;
+    --ivory:  #F5F0E8;
+    --dark:   #1C1C1C;
+    --mid:    #2E2E2E;
+    --muted:  #6B6B6B;
+    --white:  #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(28,28,28,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--ivory); text-decoration: none;
+    font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.75; transition: opacity .2s, color .2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  /* HERO */
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('data:image/webp;base64,UklGRlo1AABXRUJQVlA4IE41AACQBAGdASraATwBPp1InUulpCMso9EssZATiWVpPJSaqdTfie85r8Jme+dp3vee35Bn4y1xA/SxWSBzlPAhsRFObeX/iekx+U/6TZ5BOX35jzkPKfmLJdy8+4szOyp+5ftt5yvqq83X7a+uF5wHmzdc96Dvl2+sL6yGi6fSPKN847B9T/hr+C3OP+h43/uOcjCe5gMqjpqHjPGc+egBAWHLWgsdcTVKiRWCC3Tqbsn2jQAz2DWemRE8yt9bMTwfNn4sV1FlaJmR9+DBSMLEKHjVQkV35v/ttxKN2MCFjBuoWpm/hFfOKgOPSIJY2Y6oPJs9DRO66j8wN69Gz7D2RRs1g9peSg4mGn+gy9f0vssXcFeIw6fL+SM2+6lf3F4qoApefAnqeHqIXU9GSYSc48p8KmtAkRP1uo1gMB8/qNWwPGskFVZA0RHZRJKAtjYOkkvxMMN3DWf0iK3Ql1vg/WTQn4n9kFw+3GoR0xzqY4ua8I8l1vnaADyYgyY3Yp7SPpWSgQG78airPgf8El0E3EEPPrwpvioA7T1tOQIev5npoydrw6QMPp1+BcWaPInTtW0hA9T8LEfAHPP5bxCybmt8V4bZT4muPX8i4B+3Tl6pQ6spLv2DtWIFfnN5Kbc0U/E0TqncXAGim0C1iuNGwETxR4QWFGGpj4E11wVYTw8JmSZLumqqRxbWs8BsmlbW8Zj2IxdPoQHZj4EhU6kpALu2f6bYh1aYOEMPNFzaAE5ldt1L6CSjZnZsU5oSzh/ufLhd7x0FbY9lXofHB69FXe366IHek+EftJuIhp6oNShtwrHGQFT9Gj0gXpbPqCgwyuslOWMBnUkLEXqHNoyPxTB0PNjxlZWgNbbKR5aOnW3YzA7Tp6cNioyQM3PVvNC2Oh7GcdmEkY+9EC7hLnrm6p+IY4UO/wFL5DPPZu01wizRiakzBaxorX84INmoNBw1lQ2XSsdJXwMTiuUjMwVe+TgHt+ipWS4bprLmUmkvNaT8TOvM/+0E2yXhrS+f+QoaRM+vfZgztMzQ39g/h2qbfIhflCO6GRYNda4s0FYEVB9YJD/YbDC7uwkj4WBPuIgG8aLcTOshwKZMnY8DW0FgHCwJBYffK87+st0OwnUNJu5qtUiQcrdLobA+AIaPsfqZ7j2Kw5XqYjpvqXOuWPPY+/nJw7V81q9J5cQERykHqsaP7a5WY5oi51zXMttIX5sur8u6x3/t8DHpWukLDF/1pAruJizCc5zsjSFod03ROdpYiaPgoEo5G6OwzmWmI/2G3ietPCBiHxluDgE+WjT+0vjr/bPAqfCrPxA3XFZUxUp/0ycObFCnIWE+Bh7OV6KEIGDc0ItCMpPiJ+TNjpGzDV8vMlGz/QAhXj8XLBrCD1KB+ZVeyqDWKmfvNIA1bv77YTS5qn/qdt6nXkQoz6KgqFroYxQfWat2WnyuqAfQrirTV2ENwKKI3y6vjzltQd8lf8XnZrqrgEEHm2GRHAMuSwoE55rArTsdE6eX5MzT6rJj8BuBGoTE8s94dlfZssoeL6i7mo5D1UwIrFPDXXv6xKg5tS/KVmLpxBje11b62jE4c+KjrgLCcwYj4EniDoYgkVqVkn0GCHezU9vjr9KW+yfBB63kdl+cgK+7eOEbbLD/DvAdCP+rezE18i0OFgAWb8DvOi3Zm3NJg1KivrIellsAtqO8z97Da/WeUMwgXsS4bfU/drFYn/vSrSRC1WQzncIhjzP3EkqbeOOzrhmnd5h9XfDCMXyGt/SC9xMZ45Yd+hfRRXkLCWRU1HqrguCAUSN/VfN3K0pDyGrcYb1TJ0SCiMuqUSXCxWPc7WfV9uITP7zERszZ7RoQm2fcyyIf8Xmrlx8oaZMutRjHBN+JZ/IwhSxqijvK6lQM+7CUDrKE6S5xTtStd2iJA8dzn+lDRr9xcPTyq22cSnGuXPlXY6mjaTtsTLw8U4SdUAY/DU75XabarOSyrpaR6XkMHKpVfNW0b//hkCsE5zQ3ffziUnhWIQwRD6zKag1meTMCqcSNcmr39X21FGQppDwCDOUCtI0ktn/Wi6TFrhYx1IWTO1p7ODZLMT7pWH/xLhk0XDzof61oZ0yOw/X0fvfRczlDpDyiLzJtECbsb95JLWm92l89luwE3mhDKaHyrDdOVZ58PvGaiLaZPKFkqBUqxwGex+8iusl5+zmxXjNALCQnw/zUrDYrywBNTFJiROHhsG0IQi6LZpBIPLPSh/YefqdY78iyf0YVdz1v+MKTxx5tsXaY7mmto36XGvE8iulSYxS41lKVEGGOCz1/5awuG+LTrGwKpPqC3tXgQsRo+giTcN98QPi1ZN8A8kj5Lp54VnLlnEm28/K4DBy4ZYabGKol7frd8uiVDus31ypBE9cwl750sk8b2ZL/stAxXpU+G7KxtquUHjZO4ABY+720sZSnr0Ky2sIlYXo8/52fUYRoSJ0gATaIWmqcMEtqYLflRfz/aGLC5XrM7q6eDyAq+0ddSrK1XD9F9yS/8iDvUCZyq7IQy5Ob219URxHzw5PxLTC9VvZ7DVfz6X+Exok0V4xAZDOQwLJe43HdR+PNrHJQDn56tkxo51aDcooNzBTy/EkerLSntOg3VpQ+l5jpAKebT7hkzsEZuVINzZL6wIp3Rj0ORGSXnvR+ibS302KS72GAJLJsnGUqD4CSGoWTnK0Hu6pNwDxna8baV02TOww61jhT2hDjvR4SX1Rj6UbSkNzAZ6VsTXkhIQ7tA8Lta3wuh+2xqy3mG/gArKza2Dq0JtmhGEiXvsCfo5Q7G50SAAD+76Aq0CiAn+odclE8/eK1+/nkefntt8ABVNHwCmr4YnjsQF3h3mSitB1ln1XwcwtT6gh3d08ff0xpkQEhDWvXNvEgT+1e5uUANPR39h4tnsWNr1bebTQrPEiQxysJuTjgMe9jd5fXBEljQuNtb8kGDOSe4uDGxIV0Av4ti0NCU+XE2ubl3mAF8byTD7yJtHKbN8wwf/jcgU6PGtTRtlzYLxvhh6C96wVcnLoscRbgiJl35BiF/RRMqkHjX8MfSKkEq3kTtnseTYdedfFg/idFUr9xidsssGxfAtoGPqgt8s+xevcSoVOHNaMPCOZDaos5PBcOlyc8rY2kIFotQhB+sP8YMHEMi9f6LHkzuCOvQhnlL0OWaQbJ3rNWf2mTISttd80hp5cdpeOzqVvcUdsJfZ9WL6CBLP+ADGBj5Iw7GN2xvhTckLjqWuzaCpM6jesQRZ601eGs8Rn0nmlx7PaYo8/+8EFvF109e4f9mOnYCh9yyOOnSZJeLftGgiSq/YsunKemiGoxnn/dksy2mmNSyzfThrAaFcog5PY3wSqyVfIJZFjw0gY1XBjwenYeLP0Uq2lS9pve+9UeSDgTMO+X/vA1jaYuGOnWpoMxL7guqm+s8AEURg85p8+DPAhGm5ZBIhjlxHtfPudoUfY+s6seZt1TJ2uuS+wSxn6clKGZX7wnSNiSbgADj+sdr2y+YqbGHKxRuutkSg8wf9V5j32elZKEnUcSbpd4bNq0fr7YB5zb6+neHyKJAenDa2Vy2UFgJu7MD2DivwxKTVrw3IVvsd57B+xbps0itIHE5B8aCRxVngzRbWQlftVi6AmWsEjEkz/S7rTpiURiPa18PyZMtZf2r6EiFAWhMqjrbSWSG6pfe95U75zwTX0WUpgF7zhMrLwkkveL+hKUna+nIKuyFkGnKrzC1dyISAe+qpz26M5G1CpbgUjR6qO6M0NmyMo8nIYvJhRxQS8Zl7RzYIaeiE5vy2lQ+7/7St2njzdl6NDi0zHDV8JgHM2Ob6Ky69N+/b9t4ySYZKL0ANG9z21N6jOLoJ+7dhxp/AnIz1+E5aXtasYif+WNUIXps475Bt1nmFXS680lNVIUkqgMr4SgxOXe4E8d0JdHe0s5hMrVIlrTrS2xBjbyTo/AkCB6/UbHaJdpBXtnoZm2gyPtkuWOJfgY1FKuRauFg+d8+UDTyENxUstGGq06m3yNcLTEbW4xgYaGn99794gzBQPm9mLkNA43yvDf7nBQWDw1zp/bk1elq1LQWgNwPRCH756IovxgYsAOH+X+m77U2zknCI1k4xxWZ3iizPotQQD4qU7kznXc3NbV1/FZueMVm/FXQ+wRSIBYKvGpQqoE8RY1Qvgzf9FwVdhV5GYAEkJnErEnVDgeSvDIbHdSoGX4ELFfEw06/B9iMFLZahBP59f2jeKlU0t/MmqSEutj3gD7C5bPQXY41jXgyTdozV8TBdz6EbwRTMyIWItYk00GICgI8dbwZzY8kNXGh8engpPaE4J9LsAmBirnRQChuw3gr/CMfmblYljyBXZk9QnFkJpL2dWwqqQtErygfpNII2UBLrMQZfTIFOXsRJ+u5GBYtAYCgB/XF4IZxHB9hlyBgO+86+7jWQn+pLCtcqRj1+Ex3MorT+gSFrvG2FpyxpjkYgTVG004YI/I4oC7r6n+PB5IYLh2qcnTwlvwy/ruJtwPuNDqZwWZcI8PZTcGadDfDzAxI9EHp+/aWOso0DvtksnHfCJwvQR1K+SdTcpjSMAab2aKReYaVC/CDdQQGZUchYaZkkd14TQPwsjsc6SXbdIZ4U84MZpQNdjdy93xNr9yCd3bg47eDUBxNJX/RLgP5huaj/YXLXi9dyL5eqwHHnL/OHjXoLvCxizevwP4jmJnQtuGbkkG0mukvHD659RkgxnBhsNhy2TfndKPx6yIbtmqTz5othmlgbALNL1MNTL9+4Y2ZEelg7iKoBggSYO3ecIt3ErKvQhmAfhl2JtyjBhwT7eHcJPzpFyE2QXAOQ2l7fxIWGY71oiEXmgiw0HT/+GUqVVwzNLsM6HAVVT2fLrw+gJlhtVM3Ze/lBSyY0/cyZVQjWqQGP1IvgSAGRCvVAb9exGM5DX1xykFT8NboSORVbjE/oJDOE08DVg3u7EWqBJFR7ITFFNS4nXCVZRd16FelJPn96/VsOZb87vEEmoki+eHd9QwZ6a2bB4pgS0pBZILeHrPOf7FJcKMuILVj4jHEoNeSWdNioybhm0Gs5wgtrjkOx7k8pd4yBgZLYML6yT7LIy+wpXq//KnossxTIasVsuE2BvcC05U5xt19zwJfTtD/PGcplWXgFQyn/Yk2EXuCo58VIed+8LccD4uL5qMkYRB7/6f13KzQFvRFg1qO+X+mRaY38WjvXntzCGsW9qAP+01DeSfRjpGadLWgiQGyw4nbfA91BI7hK3I/19a8tBSKBFcDrAI9F5zW0GZ4kREn7zild0Flns0v3fXweVVffFCG6uxN51DUTn/vptixstJSwAIOYCP7AgjlXTyFJsYDuFHMKwpRm/tKiWp24wDizd0vID1oAekzapHi9N04Rq+mz2unEH9S5hSF+c4TaxYxMTxldZU1UhjHhxwC9Gz/4puR0PqrwBStvdYFcenHMwiqQ9SppCbuETTFj1QmlehRQP93wW7bf6NWlD48JhMX38mo//C2IXMfmHmIMb0+8N62okyCxup7mjpyIDTJ6QWgoF00D0038Uu8txWJbTG2MR5F96FEqGoI1dkBsDhn4oF0Q7whzIs9qsE5nxCVNyBIT2UI0qRk0yBKwFAGqLT/z5+6FbCQ6Ry/YwuORt6walLFS+zvOulNEcx561HLJwrcJbAOnDtEf+Lk59tJS2cDZI66Rbc314Usf4ROYVleLN7s567O0rPIwdgyPZ7MEloV658mpck6eruv9fDH10b+zxfR5EI4xOMHjMDkhZubs/37vOgb2hvrXk36EsPRZ/0yffuFSOPA4KEPM3uU4n7rCKsgO/22i9XBNlD0lQl4liu3bEn+LnkPBOGy8sPOYCsIhVvCFvjv+sR/s0nfiaq4VXptSWrNoStoPcbtejUmVSStlLkz3AlwQIZmEUEEOSggrwSEOHcG6mzoxEYBxModYFPl+U5ARnESzyBiC3ViLmTXwmZnQU3k/S/1VldzKcfxWmHIKdW/WiVivK9q121j5Z8XZRRXyTn0NIsjnHi/POAGBqKLa+Gt9oRVeFkNlprLYE2inm1+QJ3JOETS9q3UhfNHdbRoveMdkojcYc+KenOqBu+9Mux1FfaF3r1SVNKLdThrg641LzImzG38PQsXxQ+pej6QOPdrQSCRGnatOGsRrl/zmqbeWnQhrygW7GVEfa0tOESru9znoWQo0TEd2Tb/hPC9L4Yp2LMDlNyO+RGhIUjXB8on408kgwmi3vv/nbEZS5tfATKYFo+GMUI/LpacGUc1UTAkI4hyEsRNduNYOQ9Ye8tcg7jOn459JPcWWfPRY5Q4pQ7hYLMvZ0JKmGF3tQ08bNkukweI1c+RImhjgIbEdhNlnGVOb8mqEDv2JhjGfepASc6DrtTjKdzk4P3JppQ7GJKYTY/fEgRrm+Ln8QxZeYTpHk2JZpAK4uc693f+ZDZZ1AqOCztky+6yvi8W1zjfvUw0DdUKD8bh8oAlW6mi84VN62AwSW4HS/TEPh0dbwfFpNHqCf04dOPXX+XOnZ6OggF64ztRmJlNfhymRQqlFgndJDCfw9NxCAexfRNvow9vY+YtQJ9Y6DXYI0eV39WUdxypO47vRFnQbhuO6wpKWVrqxqJqTX9o11hHeccBOsasAGVxrzjvNjvxZAapEWfgM9qHuKY6gRnRncLQAMSNttcbToE4OevTL6Fa8BtgDZQGPuo130KUoSKYJNkJ85CZtl6AzuSi++NuD/FVMG+FTmNaA1KHz0mgBC6CD2H8QR9CXtTZV+AoZkC36Q6LGkLRYenQ9+8+T9OKS+gkoLfaUBP2ssRo2eXXW5TJo1OjnxoEepxUd9R/SPdFfIkmj6c/8cg8kvd1t8/R7AQ9tc/kfEzkthIitE2CEzHTee+JWpmwA5uTroVLjC3helNhjtQlarFC7FBwi1wjvt7ABw5lEbMiLC6dbMZZpH4bRgWOeKVqrFjwy3+pJ23SVY52jlOelvQfR+SmQYD2k0duQZUpEIUK8+P7rqbzBRf88I6J1vCeptDCuJssx5+gVdVYdbW5UtL86jBprDdof7ZKvXIaDSE8kcx8fw57FNEgk8xpfSG5KS7QW0gtnI88Vp4mcVdrbqPpf+v260I4bpat605AjZLNMUXOmxVwzmAA0XCLekgLsHjolj08VAYQBO/Kxq5rd+0ecDNWtortx/SDZId59jsB0D2xSHD2JfwVmQVua0eXiRYnted9nmtor0S06j9AlIsx2J//YX5oY2nxheNSsxwAE+MsrRSvhGtt1932fSZlK+JndGxBUpaict5uAqF+uRhhL05GhLuvd+zIBmZuLePivQOZ1EJ6UjHXgKutn8VBwavaArDi6v5mWRByEBCnUg60CDxzm8GPa+fz2JWFPOOB9SkMc9tcsDahrAP4YaOG7t/PCRYFvXLz9Hi0OyYHCIKLObClfU1L6bwSfxOGy1yY8lpP3raCRfCE04jdzc7FYPyosLGf27pSvCuLLs7KAngX6IPJ52judoCFqHkqD4OXEF25rmx/xtqkSynJxveJBYbApmH//qUimSHvDi4JfFcy8l46BCGhgjwZArlIG6lZXsyNZtc/ZM7xVRQG2wntARkQuWVzvrpkdEnRX9HciNvPXW5QKxCyt4ww42TUqzpJWfZhF029ffTEoRHEYJ808oxCyxsxDDmGL8lTZA3SW5toJXxA9eHUhRlgm3zzanNVpSgXYmQ1ub/kHZP0yVfYDSDN99OkY6UTlPgmGKGfXDXsbNs1ybczLKguDOa5zuwpX749Q61M2AdWH3PIHSrFZo0t69J692ueYRSTQ681ycUt60J+Akv+jSFkR2FUdwDXnbTj/c3eUPRMM9jvI1KbYpWRc4eQ71ffEoSZ1qQGuBP+9w+u/9X7GB/s5KouwEkEyR+ZxanM/njIMmMHGyzXrUsbYDgILQNlaeqCc6psMjj6Qfv2VyRb8uploSE09d6aRvCZtDWvUcZFpSsHgw4a/Ab4d43RwLJp6kXzEDVsbonOuLJtj380j28ZguJ0hzCoMsxVKswzHJsg85OQh5IUjPMFshaTNEv99El+PLTDqlK1CdlwaD/dILwPQ4LP2sqwqBc6iaGlUPyL6Yb2Bz3EjZsk9jftPHmtFqFc2FzmEhvoMIpIxi/XJRiZ85CrRGkEUEUlILJDrbzMxFIuojhmMqmKvbE3v8rHAtGF+NzXTsGdhpRpAHAARTqoGYWbJLvXHhWlTPLGnlePDMoAM7kSHk4/8r+DngSilDLjJ3bMu3KcHHGSiFfb7jwZEkZjBuAUxpyAK07ST6qsF0s5CTYvDYbz5aa6lG/b4lquG+/998Ya0hZvIQBLu1sVDEPNebUiuyOARx0qW8x26mCz5rU3zLRGmTcHAzTFqDTyjFgISAX38Jp86A/bBNwMA4pL2sIYuTzhTHxuG2i8u75R+8O53YJmn0UlyWtpwRP8dX9c1clQgHYBOyn5b/pxlB41iLkIiUpwGlXuQda/VFzE7w0V2mK4PFvl9CUKJUApDRp7fTwmoTdXJZJjiRftU56tH5+R0/62j4EfQU098nm0+HysWBwc8PEcHBAvGc7Aalmw5nrMP8OfBV97gAmnXspXH4vcnBwoUbeTvDDbyskatOsNbXeLt3pD2Iw5MOiwhWuBqrEPZjlKUijHkyrdoWxSfd+L0iybLQxQfZeLAShwXo32Ri5jZx+ToQs2U+OpGevyV+T1KtVreewE3jWqg/VAEmc3QOnHfZPu7ij/3zr+/0v5GKWA3Wpfp8vVjXKlVS6gk/hzWZbaBtw7ZjZSkB74v0IiGg8LeqJEjS0x6aM2SegtK31Zi3QpzHSoecV7ZfaOGYvAtn/aCZ1yCkDe/I6Qcsxm75PQM/7sGIKijGEJO+2oTgwK6D5O8apuxCdW+y/wyMl6Mb2ymqFaq+/rfkBNa4y3qAuGXaVFkqsiwyWbgGGRYqbWuC++oeNu9C+q5bz1FS0HWUKIOde1UhlmzhlCw5T3mH0LlPN9lcT1CGFapnaUUDtHfNUwfYn9QSQNVFd/Cp6qb0thFBzbhNbYYqgvm5tQGaZI2IL84FCIY1AVB6lVW6kgFWxOZ/yXAXziOFBVVl2Dgbt+jg+liV/r0GnU9+X982YGmenM26Z4qEjqrwwYLHtkid0J5aegoHUYF+Y/vNk85QgeAVLgvR0poijInX1U+rDLZoA6eQ8LZycLwAPxZrLgQberO2lwi2Z3vPdQjetds41lIlTXp3Ad0SXsoKeKRcgcFq4JFa+n7Y7Dq+6l6oUeJmf0bhLpKzCBogPys6VaN7CNs63xQ+grN50j/Fsnv6kNVUu0P940Lq6K5uKrJr1vklpI4yi81xJyS4reFz9l8HyiOF/llxQDy93BGDOGyN2f6ZF9+ffikT8JmAyFZLR6xE5MruFEfNjnAePZHnwOxK8iUEEWJV07qKjoTZHv6iAf9qtYQlVACKEf0H02hDrucJOLib5Y2AZ9ew92F9P1WKkEPNrJTfyO7cbRArk+2IVmHgV+x2PNde+Ugn/kXVryp9NNyiHESGaoy3odbfyEvTPyH7h3qCq/LlI6dr42RNv9tdVKx3818s69M6k48o3Ch7dhHnahHsYwB2L518YhnBGzaBfXK8VC+CoVf+RL7rXl0owv2ln+4iL5AxUQ+dqkMgNIsu5kIt3tHT7zwOr3AWjfZrsEooYWRQcEBD8+LkP+07wD0hCmZm3pFBirLJLxmn21Ao0fQHSccLO3c68V95XCuXVy5/674gSvgco0va2P8tnqCfKGfuDOE5ae4hmmvpGgm59Ui2BrshPVcKXFUVR/tGvXD3k08FgJAdB5+qEx/F3J+fwtgkttVWRLBh7HAZLH7xGV7dZSFmgFInDZf+AJQ6snSfUnKqwb1t9U6ZrwhR6NGOGLCTMJwzwTegh9pVlRrmFTEKJ51opePx1fC4GdaHSof8kUT81ycppLr+HFs8BqxL2UBYmtrO2BQ3dkxZ7Q/0JnMh7EkZyZ58hhVxNRj/1jagN+jz1Ag1WoeqkRqyOMcjdwOiv+2Owowo6hfrjebpI9xiUr8brGbEPtD4yFdg+ikKmV4kCb3mXtcgu1xE9nRLE3zfiNvIvPnIuraA4/XwrE29mjxan2F3cABwkD5HyvNYGzbxPjFqWHpCibzCdgZZvgXt83bQySzoFtvcyGOl/C1WSuntWY2iPB0oY58gDyjmlE/ey+ZanhMRFMch1K67pwoVb0H6xy4xrf5mvxwVib8eikqpg5mUsYZ/XHw2nX4axzMJGf+dLalRE3ult1/rtNawjJyAskrFzwlD0onlcxv5IOakKWI26pKggSdgUz+IZxH6m3MvPMgT9m4Z4Ni0EgGymnkSfcVQc+o6MDxPSFVdo6LhuKK8fQDEzlWvX2gtN68DXPTt+MqBS8lfsd86cS9CPgT8xdR9ttMj6I+SeInSlZ+3nv1qIm5eL10nA2BCS1lGfIMcxUgY+yDmIFE38Xax34q5p7GP1eDHQHw/y0JZBGkBk63LB/mrfNNgq2bXxKyncDRB0hxLdDMDiqvvGD4SXAU2d7dNSwlS35bFAzg7qw+HhDx+4tUuht1KLKQrBf6qvfNyz6Prkmn3devGQm5h8D3wXyOuKvE7lPEKxrhVHzVoeOPu0+pjZ+/Ohmu6Gy7Osg6fjUh4Na05nCLVSFMK53PKV1m1zPbDtv+uRdU+GHGGIH4mL95dCb4l/KyfUQVcR+1CzmZAVuEuJW+RdGntwQghrAGD5tTN8D5cvQyeeaIF7dPa7dgzPnUdAwEAYRV8SI+3kOqv4ZS8uHs5OdkhR87HI61/ZkM1vGfBB5sffPQLzkOo95zBPmKviKY2f6hUPyP/qloeKMy+78zPPVjwWYA0CT3IvIp7+ejr9aHj+iP0Tk1B0xVAC27ArrklXMrHZr3HS7T+4EihVm/tPTAOI52mxTFOC4IXerABMnGgng0Q5l6h0drJL9V6456mRwSc4W12sDvet5o8to242R3HHKS0Am+MuGqYcKIe4Qnt1/HzjO9Vvnhu5TkbP6iOoMGKqN968jjMHcroamCEujzSAbHvsSTBbrpXK/QMKDKU0Y527KBCsYrKT0Xz8l34Js1KME2YqV4olJb1jb0f4b3E9+DlZle03Yq0eOThrTFOwq5J0Cta4hYS6XRbuO8091FiQH/oIiGJOSbB6fG3RrcB6/5zVXa5COpCWXwe8u/bVTnEhdiy1t5M7VerHFTN6AOwt2HtIj1wEcQ2omTmefOyVbr3Cjwe3gm3TawPonQaUKptnEbJ+GNo2EnyFX8aMqGTAJMkas2mRYDN1qt/+weHjn7BANBt/pqDnAMBJU4/jtxDhcG5XX/wsGCPtHXbfu9eU1F38ylTKGFVe/1n+J0m5SOQ5Qmne4uPJwm7be5/vzHoDReS27tfV1MCr9eGIuW9ReJiEfZF0ELL/2kx/WqeLlQl2agdJrsvThdwHBwmjdGfW7597noaYhVFyJ+f+cPRk+0DDSOAKGrBaXsdltYb1eylw0m0DuHaO2ng6alEC9P5v19swj2/ZKK4jGPCKFMYeWD7o3TqMQTBeabW3nC9345IGfiRGY9LerZFndJChIGn+RsZwJEM43SunWpusaAkBg+B6QE+0y5KwQOXYBNSjGF95vMTdYZfF/o5uH1vXFLCbCuw9UBBMQc5nYhlul74DuQFuLqSrlD3rriyGdWAvLGs0YnytOabiwI9FdF3h7gT4nPH6DJFscMhSEpj2/bsSjks+qD2ezlxIA7WP5xRbK7g33G1G/YzPz5Z6XibORfYQFqvlEbpzbPcoPy2xoI9ho2LRoHSGwdX4LvOacNPJTqvE9p+iFCkJtXr+5+bkUVRTrCS7aF2CHuSn5XRc0sRY2I+DXy2l2+Q4mKCk3RYom2I04U3Oz0GxHPPIne1x53h59tIpQQQajNEIgBmpPzg1hMTej7HzEZBOns3m7G+V4qPn7xF41qHTV2V2qrpuzqjJuIaFK6bW6ePyt3vNM7Xz/lISjYeCR68gnL4eajjZKsig4jlTw9PF5+5HMSD16Knwcvl0O0ySRX5XiX4tuMkFhD+tuj56BLsy9PwIrbautHNpUytlPxSNr37brFMneONjXh+uNX84gjf02v4/2hJdCauniunv1OiwfesyOODmdcSs6Nu5LDw3DpwH87C5ohcZhvhf4w7cXHFYtLne0AlDLorWex9R9SHnvPB/tgrp+BYxiGwN6wXtwGjGI3WR3AJrPninCvu+Wq9/WCZoI6KHLoJ0CgXxhMfXe+XsSDhzZlgTyTK80mGWfqxvJ8a6flpkJriAswcZoc22qIrhUvldYMr3v91dDdkhytBFkyq5ALzSnfGDMUpx8g3bRNemVh03S9JBGw1R2yaLzFMRnK6LZTIc4tbtCfiuvz+nLEuR/DVvP0mqXcIL/knn91/X8eJqmbb8iglUw3NdCuSAOLnBa1Va6qHYqVSLZa9Q+DAmLqUSf4HSd0hDkSDgUaqHek0MPsWOTnOUjwjK94Rlx4c6IVOKye6Qzjcm9dULN99egVhAHf+g8+BxDzxhknBsHYCE5auTs8x8F5CIMHsrimeyl03q1JyW2yefh5RLpp9lcj+YDFbgFmLVadzi2U4JZVUmtLUIhct0HQiw9T+WWOwUSqXDyiZwEL+yx0TySGBxKD82jUP6v7XfeUAUUJsqrAT4xw/onc7II+z/EaewIl3lDcIiImwyoK7vxpoJoqhqIY4Xf3eT3pA2Y5HTXD7Ei/cX3S7+7ANApdoSGaXFwuI9PzufxRsIeik21pgHQhlRUi12i+QBwX7pIaS/mOE9yhqe4i3TzKsM5h6324A9KDZrwOhthAaCR0XCjV8ibJb6L6LjcOvknDWKvAH1iEQkB7gM+had0xM+9xW5GXbVjdwsBo+7Coe10xy7KskLAWw+hML+ByjmGT2aeFLBBbqyViss/eWeyeIriZ63KA7fqLT6K/lSsYaO5oZ6HBjyGDWdmJUnnomJ/ohtCgz8ruvHs6846g+P7tU2myLSzSAwyk3ltT/7Az69oPqaeCtEA49eB3n1eXKDz9wL4elQuNcZo90oaky7fgsjnZn8DOa86TWs/4dzUeMHFVRBuAUMXezSKGAeh7PeeRU7enOWbwrT55M+F7dKcDZJ7iAUydl/UIBEdBiMPwSz8/GGfIvAOri0jy8Kef5Q1EP1F5CwQDTs1KvR1kpmc1PvBe/MynhT6sfQKfk6fxzBhP331+VUHDHLBHHt3Cfp3zNrQNZqJ5NPvqvRThwwgb6ooSxE1Fjr6K3l7SGjCMnHliReKBLg6s/3sJ6ERxXGUQu/NKSNBd6ds5hnymMsdUQE9r88tN5TvMpnEHtgnySOP5baXi9vi545EEqROhuLzNoYGfT7/h123mBtkYoyjRee6hgnJprsA7xcVNwkdoe+ufWTyX2/NZAe6+1rWzAlk0X5kZuKVHC4dDLo/nDTSIFSfzTCuHq+zre71erZVXyB0evhQdScemFcJQy5lAeGCiNsvDDDGKOEAn1V0iUqAV+ozcRKApUoyv1ZqGuh4ukCJuWeMxYGIzM+4LF7E+BoLx21ZXmA6DBHedTznaWoAiOuk9gB1Y8hF3VZDx4/yOhQsTOkNgQ7oDo6F1nsfpcVtyvKlfGVFUKEjokoOHrnedK/SppmnHJ5fO5LZ2mBXnPXx9OXfYLo8tqgt0QAOzCE0aNzsHYO7aFmunapciKUcnW+sGZX7t9yd+j0AlBjo7t0/z0gekYSz7Q7E134xA/AycyVSTBQwJdpg/sgaCvGkNGjZtoEe/TaUp0+9+4Tix7HboKUW6Y8k/fxtZ6S80dvpnfgfwNvzCtCK9TxXBEXoySi+dgL7XFI+5oEeieTHkHKIUBG7Hv4/TVo5g9fqP0s+53a4heaMuh+TYka5lMXOIVnFdWCx7nMs+emrryhJ0mnY+nIUYo7pVV/8c0MK+npdWwUx+8rn82bhtAdP3QvQtPAoza5Ra8Ucy4knCBQIFim4TlLURXVijl5KCL54W5bpVBDSfzRuvRYt2wpLgvoiGWzWVg9Us/OWcglWdGrJkr3/PXJLjgxNqiua+e6WGqr1uzIeI6k1UFVBotcbUqGBLbh4VTpMsYHvV1OmcwYixB6Me5KHZiOrhPVuEHIcWXtVB5yZ9cKs9NQjA8kfpVsZESOVoUtoWKLPcghMXIVvtHQXjXAawiLmZ5OXMu8OwL4vL3DCcgp0bVErfFZ96Ug5TW17sA7p6wtMwgjmBP+P90uqk0LOjKy9/zjqXH41cRf4Ogn6d3MZ5uHiuThqBmELi6N7r040PU1Zr4GaCvFYcBCD3YbPRZ1+fKt/1A/XoFKWBFWkWS8EPPTRRj97gDkiySl5lJmgrQn/OLLqYF2+ZRFiVlBGCttlW9zaTvVcrKLrxvxZ16t7ms0710OLDumplHE7ucdWZs0TsrenSPKUsJjkqBc8FmEH0N53bt+Y7eZTLdLRTlc5aoBbFyApieuSDqLJIF9OCOunC74CiX55uWCn3t+8iE0QuRGw3z08fvCv14vCOlCPJ/vG+AOkOIFMvjjep8uYNZ6+fhCKPTp0VscA/aZ+Gu3f1vaoyt7vRtp/oi6Vu7D9jWC8e6Bq4wIrJWeMfbYFapnn4uWgLhI8raANqZFjbQNZIRe28HSlVmUJknXSsM1SNrfwg0GO4Vho0MxiddG/QR25uHSK+9iVuyKKeImwvGB0+ccQR5+8H7qn/vEfl5zUMzH6+ouox0b8FGdeLB+oS5R2ERbyN/i2n1DHwBuDmxKl/cEXxRbu1kPWL3LbWSpchMKbZAxKaOCyR7OrLdQExzA3z5EPxnAlsPklWWRlsvgPK3Gw2XruGvpf7cR7wXJpHu+jFyRarr9ILF5qzumv/RCZnnpMRrGZ+FGSc2FdFrhlA26QbuXkchzvHC+RK7MjkinltyhTQlukzXzIsSP6bSTD2m3f9j7O2xti1KbFh4H54+aZpnH3lP+u8mSQBaB3woE683S4LzM4jy11xyt1hDcib0A9j4RAr+zK8Pxb6T6p1vMnbxa+C1opjZTWaOnPiv6k6rYQk64Wt5JOldCqwgja4KfJNZF+RAHjB7iXw2fVlYAexQ5I7zNfFp3bF2npOANFpSrheUESdAxYTvWYkxKbMzOC1b6S+BmowcK8JGmphiPkbTvSknlflYtNPf+B+5UN713edyjTtsvip+3QwogFOSwU8x5sT39UUE8/SSTfZ3WYNwuZewC+299glhx2+9DTlfwz7w1afkkLYZ1CvHbhhOF9tBXWvQNdKnO22MzDDaKJKdOv4AUGY4Ru6OqjOBG18NxcMbWApz5pCrNWer1kPonfMhKhLaWwaHe81efaL69P8HwgH5jqIJRkT0YHLUIgbPWwZYQkUxyJz925bjTd0+rWaa1wnGzJVnIIOWf78UVGhv5wpnT5R6+vgCi+eQZUlFFbbEknhh8H1m4F/T1L8Cj/S82F3lE5j7+YO3ZekBxUOT6RmJuXgkUm6U90RwjcW5R9NNyj1AoN3ovjzRnuGAKbMaHYyeL56IQYbFckV1GNsoLPvem7cQl22U7NwdDX/OIyJXdeMajjFGWqjOk5wiuswx3+hho6tgA6p9lnHXpHE7dd36OqMd7GUKwmu0ob/NxhILr9lwyByy5pbRRDEj86O9wY7BSNW65uA2mGXKSn/sYjqxtKMfU0O1qyWK4y4nT3vHN9JefwdLIsTo2+zQ77KthPrkvRbyHFFlhFnUCqSytp98hr7xhjUrBGpIPGJAMd4oktk0Nw48xi4zuYpdxDBEd5Cd0ponbyvmfLR8PJ38+aIVH9kKQ71Q7ZPlKCwJXmnGs100IkR2YJ2vWa/mr5AkhpYWMf2XJHhgc/OaE8zEF+sIuKmWGsKAB8jlEqNDNSuy7Q6fqM1OzbV9EUbbaqJMdHFdZC0rKib6Qv6E+v0uvEBGKp4I2o7nCjIqVHKZ4v+Db71pXXv45X4/XAL9dl10NysoXFccQbpmr8oSvKP3EEZ0xcD1TmPdzeMrU9wHhgGcXCGZPgP8pU8XwMpBK6u0DiewIr1AtvdkOzgy9dQlCcj3tdmQzdJkt6JzrAcrfLEGSVco/+qn6o1MyQ+6deMbpVR0p5iHjLmKYTOt3d0oGegSDPxmuzwqjWCrBANeaIbM+g8L501ELEP3mqRqDn682bL7QPskVATTSM1wg/yx8ZxPkcBvdkQQvD4bMsObg8saEx2v2Ss8uBKTVpPYvZ4Rhd2OUX7/7k6GPRJWPTXqwbNuevzUu+PcOFO6/ktRjAIvjT3TNKxYBg80yU+jzGW+myBSgb5PG7BW/UerNdsJI5mKarQKuHTHfR21JTTNBHXTmgr/SylV9lIx/CzfzJUeeOZPw8taZzDvWhxTG2rI/xSaYVYbD/sBwHOFfAG4H1Eq5XTAE7qQ4Vvx05f94FKH4ak6006ev+NeDNEL2Cjh7zYc+r06qCKDbx1+dbQmrk/HPQvlEUHaijSWCJ25GQdE0cTagYjAIyjuxQoAxuJLpchU9y+oOnUsI/enuXkKIHojGZxRRwtAndpbKVDodsJE3kQPrq55JKmLkGuDo2Pphve2BDPv1jtzWkDoUxDet6e2cQN0WNu4Izx9Qm7D0eiXdaxnN4aLCqbg7L05niKC8iz8Atp4wtwPm4LC9gd5/t1BFLf7tGDBS2fXj+HEffNV+p6ZNoxqz23saVmvH9nOyIyJa+wSw5/kIXTrEiAEClN3SKV7VFiKMArwsSCvGNnnKUJu+c5PmxhdbcBmmXdYSe4jVUpD1iDEcqozzNBJ7rPuFZhGN1sWZSllrfB6CHDHw/zBz2EayLKzmNhdp9jAhfyWrg4dKuciO/ewX4ia06zYHH7fGfycaRq+blwwhnQdezuVjiXwxPd+1/Nin7iQYt2zk+TBARGG4vKbejAeh8zO1LpyefvAtUJkRF2n2I/2tmMSTzm032YijT2D/I52SS9rVJJIUYjCjp3DTOM7OvFE2+lCLK+X/NT6XWYgpG90d+yzkJ3tVktIKUV7r01mBpRM0RvxjGzKmc8mOmSEHPG8pVJlq7mPvppSkgUcRdkB0LBuM1fNbkaFydvxL3TlKoaXQ+xpKXcJmpaRHhUd1myxr5US2IzOwEungm+OUhl7GLTBH66TxiUPpRSl7syV1tjRmFmJuRkhNLp3la0+TrrYP/J2y8E+x0VTGge0XY79K1wOIvOqH1/oFAD+vT9RsRGgUtYLbaLvSk44wS58BXVcqXcOT0Y96Lhxg14wAQFQ6rdJDHfpEzSJQaw/n4XZpybD6aGpYPn6zGNA0zBGPOYFnVQ8unO7TLn0et+7OdUcvzB8koxf0L28lD4nAl0fGr6hIIBkF4yLijFezsqqKxi7KeM/ZJ3s7esligTeBB8Wd+Nk5Z/0OF0WnMXmy4RWEqjqCO04zT+92Htt959syaaM3/qXd7HWpLkrKjO6sZ8CwVdWsNBo32pncsoyftwH4PHlsPpv008X7IkWEwuk5XYn0iRcGlYFqfJWyD8uLZuWbS8ZfLbjQam10JFdU3ivUZtGD3afENe9tiPymAqZ6DhpWLwH9zOzLTHxHWdxhkAQTupWW8V/7JbHtv1Og1Srm/6yTGOa4nZiQxiaiqk0gy5pqwNUM80dQTKSglk8VCGNck3d+0ETh+BPBiejL91aS38IiCyo3jl9aAZ3RoR/W0vqGwLQEHKyx8UgFx3HNGZOAbkNmWXpo6xKN5NolUbkMNGmi++GXZhISEmoJ+9K90lfLsDD4JHY6biwJbHlC/Wz4uPLyQmoF66Bwdp9vdE2gSaFFNP1JSy7gBrznVXF+8Gl00xnTSgQeryzhrgtyHLCrWNYDPISnYl0U/4YnZhea9hLDentI4ytVdSSnzuXZRxl8U6XdQw0JIdCDWy+70HrqV6ZPscx7lGJT+JKrRib1DhpvsKC1IEHFhJVg0m1yXM9HusURMD6kpFrB4jgWjvF7KXtVw2fYpp7/hBbGjM37SLsF/t55zMfYlGO1gksnMbZ+1K3nsoP2KARN8eEfL3yDNkjdaA5AKKsE2G9IOIG3gx+1otLNGtSkVYmZwRskir7Ae6yJmrAvOkTZ/OKugPQL2Co+KNz5RUCUYkM515It4c6solIO8gVze479RMDIetRg3ItPjV8JnQmwUBZSVU1ioK5UcyWJNAH5SdVIn+NMTqXn+/YAxj/3wDP5yZxPipkeNdzIngl7hPPDdYG/D8on+iLE6o2h0JYAAA==');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.28) saturate(0.7);
+    z-index: 0;
+  }
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 6rem 2rem 4rem;
+  }
+
+  /* mat ring background */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 680px; height: 680px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.18);
+    box-shadow:
+      inset 0 0 120px rgba(139,26,26,0.25),
+      0 0 160px rgba(139,26,26,0.12);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: breathe 6s ease-in-out infinite;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.10);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: breathe 6s ease-in-out infinite reverse;
+  }
+  @keyframes breathe {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+    50%      { transform: translate(-50%,-50%) scale(1.04); opacity: 0.7; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 760px; }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.9;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 11rem);
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--red-lt);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 3.2rem);
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    margin-top: 0.4rem;
+  }
+
+  .hero-sub {
+    margin-top: 1.8rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.65);
+    max-width: 480px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.75;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    margin-top: 2.4rem;
+    padding: 0.85rem 2.4rem;
+    background: var(--red);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--red-lt);
+    transition: background .25s, transform .2s;
+  }
+  .hero-cta:hover { background: var(--red-lt); transform: translateY(-2px); }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--red);
+    padding: 1.4rem 4rem;
+    display: flex; justify-content: center; gap: 4rem;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-top: 0.25rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 1.8rem;
+  }
+  .section-body {
+    color: rgba(245,240,232,0.72);
+    font-weight: 300;
+    max-width: 640px;
+    line-height: 1.8;
+  }
+  .section-body p + p { margin-top: 1.2rem; }
+
+  /* HISTORIA */
+  #historia { background: var(--mid); }
+  .historia-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .historia-visual {
+    position: relative;
+    height: 340px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .historia-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(139,26,26,0.35) 0%, transparent 70%);
+  }
+  .history-icon {
+    font-size: 7rem;
+    opacity: 0.18;
+    position: absolute;
+  }
+  .history-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5.5rem;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    position: relative; z-index: 2;
+    line-height: 1;
+  }
+  .history-year span {
+    display: block;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,232,0.5);
+    margin-top: 0.3rem;
+    font-weight: 400;
+  }
+
+  /* STYLE */
+  #style { background: var(--dark); }
+  .style-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .style-card {
+    background: var(--mid);
+    border: 1px solid rgba(245,240,232,0.07);
+    border-top: 3px solid var(--red);
+    padding: 2rem;
+    transition: border-color .25s, transform .25s;
+  }
+  .style-card:hover { border-top-color: var(--gold); transform: translateY(-4px); }
+  .style-card-icon {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .style-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .style-card-body {
+    font-size: 0.88rem;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ZASADY */
+  #zasady { background: var(--mid); }
+  .zasady-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+  .zasady-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+  .zasady-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    line-height: 0.9;
+    color: rgba(139,26,26,0.3);
+    letter-spacing: 0.04em;
+  }
+  .zasady-list { list-style: none; }
+  .zasady-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(245,240,232,0.07);
+  }
+  .zasady-list li:last-child { border-bottom: none; }
+  .zasady-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    min-width: 2rem;
+    margin-top: 0.15rem;
+  }
+  .zasady-text-title {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+  .zasady-text-body {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.55);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  /* LEGENCI */
+  #legendy { background: var(--dark); }
+  .legendy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-top: 3rem;
+  }
+  .legenda-card {
+    background: var(--mid);
+    border: 1px solid rgba(245,240,232,0.06);
+    padding: 2rem 1.4rem;
+    text-align: center;
+    transition: background .2s;
+    cursor: default;
+  }
+  .legenda-card:hover { background: rgba(139,26,26,0.2); }
+  .legenda-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--red-lt), var(--red));
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    border: 2px solid rgba(201,168,76,0.3);
+  }
+  .legenda-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .legenda-country {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+  .legenda-desc {
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.5);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* POLSKA */
+  #polska {
+    background: linear-gradient(135deg, rgba(139,26,26,0.18) 0%, var(--dark) 60%);
+    border-top: 1px solid rgba(139,26,26,0.3);
+  }
+  .polska-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .polska-medals {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .medal-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 1rem 1.4rem;
+    border-left: 3px solid var(--gold);
+  }
+  .medal-icon { font-size: 1.4rem; }
+  .medal-info { flex: 1; }
+  .medal-name { font-weight: 500; font-size: 0.9rem; color: var(--white); }
+  .medal-detail { font-size: 0.75rem; color: rgba(245,240,232,0.45); margin-top: 0.1rem; letter-spacing: 0.05em; }
+
+  /* FOOTER */
+  footer {
+    background: #111;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+  }
+  .footer-text {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* DIVIDER */
+  .gold-line {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.4rem 0 2rem;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .stats-bar { gap: 2rem; padding: 1.4rem 2rem; }
+    .historia-grid, .zasady-layout, .polska-content { grid-template-columns: 1fr; gap: 2.5rem; }
+    .style-cards, .legendy-grid { grid-template-columns: 1fr 1fr; }
+    .zasady-sidebar { position: static; }
+  }
+  @media (max-width: 560px) {
+    .style-cards, .legendy-grid { grid-template-columns: 1fr; }
+    section { padding: 4rem 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Zapasy</a>
+  <ul class="nav-links">
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#style">Style</a></li>
+    <li><a href="#zasady">Zasady</a></li>
+    <li><a href="#legendy">Legendy</a></li>
+    <li><a href="#polska">Polska</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Jeden z najstarszych sportów świata</p>
+    <h1 class="hero-title">
+      ZAPASY
+      <span>Siła, technika, wola walki</span>
+    </h1>
+    <p class="hero-sub">
+      Sport, który narodził się u zarania cywilizacji. Sztuka bezpośredniego zmagania się z przeciwnikiem — bez broni, tylko ciało kontra ciało, technika kontra technika.
+    </p>
+    <a href="#historia" class="hero-cta">Poznaj sport</a>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">5000+</div>
+    <div class="stat-label">lat historii</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">180</div>
+    <div class="stat-label">krajów UWW</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">3</div>
+    <div class="stat-label">style olimpijskie</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">1896</div>
+    <div class="stat-label">pierwszy igrzyska</div>
+  </div>
+</div>
+
+<!-- HISTORIA -->
+<section id="historia">
+  <div class="container">
+    <div class="historia-grid reveal">
+      <div>
+        <p class="section-label">Korzenie</p>
+        <h2 class="section-title">HISTORIA ZAPASÓW</h2>
+        <div class="gold-line"></div>
+        <div class="section-body">
+          <p>Zapasy to jeden z najstarszych sportów świata, których historia sięga ponad 5000 lat. Malowidła naskalne z jaskiń w Lascaux (Francja) i rysunki z grobowców starożytnego Egiptu dokumentują tę formę walki jako jeden z pierwszych zorganizowanych sportów.</p>
+          <p>W starożytnej Grecji zapasy były koronną dyscypliną igrzysk olimpijskich, rozgrywanych od 708 roku p.n.e. Walczyli w nich herosi tacy jak Herakles. Pokonać kogoś w zapasach oznaczało osiągnąć najwyższy splendor.</p>
+          <p>Po wiekach regionalnych tradycji — od mongolskich zapasów bokh po japońskie sumo — sport powrócił na olimpijskie areny w 1896 roku w Atenach. Dziś jest jedną z najbardziej globalnych dyscyplin walki na świecie.</p>
+        </div>
+      </div>
+      <div class="historia-visual">
+        <span class="history-icon">🏺</span>
+        <div class="history-year">
+          708
+          <span>p.n.e. — pierwsze olimpijskie zapasy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE -->
+<section id="style">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Dyscypliny</p>
+      <h2 class="section-title">TRZY STYLE WALKI</h2>
+      <div class="gold-line"></div>
+      <p class="section-body">Współczesne zapasy olimpijskie dzielą się na trzy odrębne dyscypliny, każda z własną filozofią, dozwolonymi technikami i specyficzną strategią.</p>
+    </div>
+    <div class="style-cards reveal">
+      <div class="style-card">
+        <span class="style-card-icon">🤼</span>
+        <div class="style-card-title">Styl klasyczny</div>
+        <p class="style-card-body">Zwany też grecko-rzymskim. Walka odbywa się wyłącznie powyżej pasa — zakaz chwytania nóg i stosowania nóg do ataków. Dominuje siła i technika górna, charakterystyczne są efektowne rzuty przez biodro i most. Tylko dla mężczyzn.</p>
+      </div>
+      <div class="style-card">
+        <span class="style-card-icon">⚡</span>
+        <div class="style-card-title">Styl wolny</div>
+        <p class="style-card-body">Najbardziej dynamiczny styl — dozwolone chwyty całego ciała, w tym nóg. Zawodnicy mogą używać nóg zarówno w ataku, jak i obronie. Bogactwo technik i szybkość akcji przyciągają największą widownię. Zarówno kobiety, jak i mężczyźni.</p>
+      </div>
+      <div class="style-card">
+        <span class="style-card-icon">🌸</span>
+        <div class="style-card-title">Zapasy kobiet</div>
+        <p class="style-card-body">Oparte na zasadach stylu wolnego, z pewnymi modyfikacjami. Na igrzyska olimpijskie trafiły w 2004 roku w Atenach. Od tego czasu polki wielokrotnie sięgały po medale mistrzostw Europy i świata, stając się siłą na mapie tej dyscypliny.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZASADY -->
+<section id="zasady">
+  <div class="container">
+    <p class="section-label">Jak to działa</p>
+    <h2 class="section-title">ZASADY GRY</h2>
+    <div class="gold-line"></div>
+    <div class="zasady-layout reveal">
+      <div class="zasady-sidebar">
+        <div class="zasady-big">6<br>MIN</div>
+        <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);margin-top:1rem;line-height:1.7">Standardowy czas walki — dwie trzyminutowe rundy z przerwą. Zwycięstwo przez pokonanie kończy walkę wcześniej.</p>
+      </div>
+      <ul class="zasady-list">
+        <li>
+          <span class="zasady-num">01</span>
+          <div>
+            <div class="zasady-text-title">Mata zapaśnicza</div>
+            <div class="zasady-text-body">Walka odbywa się na okrągłej macie o średnicy 9–12 metrów. Obszar aktywnej walki to koło o średnicy 9 m. Opuszczenie maty skutkuje przerwaniem akcji.</div>
+          </div>
+        </li>
+        <li>
+          <span class="zasady-num">02</span>
+          <div>
+            <div class="zasady-text-title">Pokonanie</div>
+            <div class="zasady-text-body">Przyciśnięcie obu łopatek przeciwnika do maty przez ok. 2 sekundy oznacza natychmiastowe zwycięstwo (pokonanie, ang. fall). To najbardziej spektakularny sposób wygrania walki.</div>
+          </div>
+        </li>
+        <li>
+          <span class="zasady-num">03</span>
+          <div>
+            <div class="zasady-text-title">Punktacja</div>
+            <div class="zasady-text-body">Za różne techniki (obalenia, obroty, uniesienia) przyznaje się 1–5 punktów. Rzut z bezpośrednią kontrolą, kończący się pozycją na plecach, daje maksymalnie 5 pkt.</div>
+          </div>
+        </li>
+        <li>
+          <span class="zasady-num">04</span>
+          <div>
+            <div class="zasady-text-title">Aktywność</div>
+            <div class="zasady-text-body">Zawodnik unikający walki lub grający biernie może zostać ukarany. Sędzia wymaga ciągłej aktywności — akcji, chwytów, prób obalenia.</div>
+          </div>
+        </li>
+        <li>
+          <span class="zasady-num">05</span>
+          <div>
+            <div class="zasady-text-title">Kategorie wagowe</div>
+            <div class="zasady-text-body">Zawodnicy rywalizują w ściśle określonych kategoriach wagowych — od 50 kg do ponad 130 kg — aby zapewnić uczciwe warunki walki.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LEGENDY -->
+<section id="legendy">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Najlepsi w historii</p>
+      <h2 class="section-title">LEGENDY MATY</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="legendy-grid reveal">
+      <div class="legenda-card">
+        <div class="legenda-avatar">🥇</div>
+        <div class="legenda-name">Alexander Karelin</div>
+        <div class="legenda-country">🇷🇺 Rosja</div>
+        <div class="legenda-desc">Trzykrotny mistrz olimpijski w stylu klasycznym. 13 lat niepokonany. Znany jako „Człowiek-Bestia" za niespotykane walory fizyczne i słynny „odwrócony rzut Karelina".</div>
+      </div>
+      <div class="legenda-card">
+        <div class="legenda-avatar">⚡</div>
+        <div class="legenda-name">Jordan Burroughs</div>
+        <div class="legenda-country">🇺🇸 USA</div>
+        <div class="legenda-desc">Mistrz olimpijski z Londynu 2012 i pięciokrotny mistrz świata. Jego wybuchowy, agresywny styl walki sprawił, że stał się ikoną nowoczesnych zapasów.</div>
+      </div>
+      <div class="legenda-card">
+        <div class="legenda-avatar">🏆</div>
+        <div class="legenda-name">Saori Yoshida</div>
+        <div class="legenda-country">🇯🇵 Japonia</div>
+        <div class="legenda-desc">Trzykrotna mistrzyni olimpijska i 13-krotna mistrzyni świata w zapasach kobiet. Jedna z największych zapaśniczek w historii i twarz kobiecych zapasów na świecie.</div>
+      </div>
+      <div class="legenda-card">
+        <div class="legenda-avatar">🎖️</div>
+        <div class="legenda-name">Mijain Lopez</div>
+        <div class="legenda-country">🇨🇺 Kuba</div>
+        <div class="legenda-desc">Pięciokrotny mistrz olimpijski w stylu klasycznym (+130 kg) — rekord wszech czasów. Na igrzyska w Paryżu 2024 walczył mając 41 lat i zdobył złoto.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLSKA -->
+<section id="polska">
+  <div class="container">
+    <div class="polska-content reveal">
+      <div>
+        <p class="section-label">Tradycja i sukcesy</p>
+        <h2 class="section-title">ZAPASY W POLSCE</h2>
+        <div class="gold-line"></div>
+        <div class="section-body">
+          <p>Polska posiada bogatą tradycję zapaśniczą sięgającą początków XX wieku. Polski Związek Zapaśniczy (PZZ) zrzesza zawodników w całym kraju, a sukcesy polskich zapaśników na arenach międzynarodowych budują prestiż naszej dyscypliny.</p>
+          <p>W ostatnich dekadach Polki szczególnie zaznaczyły się na mapie światowych zapasów, zdobywając medale mistrzostw Europy i świata, oraz reprezentując kraj na igrzyskach olimpijskich.</p>
+        </div>
+      </div>
+      <div class="polska-medals">
+        <div class="medal-row">
+          <div class="medal-icon">🥇</div>
+          <div class="medal-info">
+            <div class="medal-name">Zbigniew Kwiatkowski</div>
+            <div class="medal-detail">Mistrz Europy • wielokrotny medalista</div>
+          </div>
+        </div>
+        <div class="medal-row">
+          <div class="medal-icon">🥈</div>
+          <div class="medal-info">
+            <div class="medal-name">Iwona Matkowska</div>
+            <div class="medal-detail">Reprezentantka olimpijska • MŚ medalista</div>
+          </div>
+        </div>
+        <div class="medal-row">
+          <div class="medal-icon">🥉</div>
+          <div class="medal-info">
+            <div class="medal-name">Józef Tracz</div>
+            <div class="medal-detail">Brązowy medal igrzysk olimpijskich 1980</div>
+          </div>
+        </div>
+        <div class="medal-row">
+          <div class="medal-icon">🏅</div>
+          <div class="medal-info">
+            <div class="medal-name">Monika Michalik</div>
+            <div class="medal-detail">Mistrzyni Europy • wielokrotna medalistka ME/MŚ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ZAPASY</div>
+  <p class="footer-text">Strona edukacyjna o sporcie zapaśniczym · © 2026</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
